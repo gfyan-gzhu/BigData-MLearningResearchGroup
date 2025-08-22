@@ -1,0 +1,517 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                                                 %%
+%% Please do not use \input{...} to include other tex files.       %%
+%% Submit your LaTeX manuscript as one .tex document.              %%
+%%                                                                 %%
+%% All additional figures and files should be attached             %%
+%% separately and not embedded in the \TeX\ document itself.       %%
+%%                                                                 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+
+%%=======================================================%%
+%% to print line numbers in the margin use lineno option %%
+%%=======================================================%%
+
+%%\documentclass[lineno,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%======================================================%%
+%% to compile with pdflatex/xelatex use pdflatex option %%
+%%======================================================%%
+
+%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+
+%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+\documentclass[sn-mathphys]{sn-jnl}% Math and Physical Sciences Reference Style
+%%\documentclass[sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
+%%\documentclass[sn-vancouver]{sn-jnl}% Vancouver Reference Style
+%%\documentclass[sn-apa]{sn-jnl}% APA Reference Style
+%%\documentclass[sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
+%%\documentclass[sn-standardnature]{sn-jnl}% Standard Nature Portfolio Reference Style
+%%\documentclass[default]{sn-jnl}% Default
+%%\documentclass[default,iicol]{sn-jnl}% Default with double column layout
+
+%%%% Standard Packages
+%%<additional latex packages if required can be included here>
+%%%%
+
+%%%%%=============================================================================%%%%
+%%%%  Remarks: This template is provided to aid authors with the preparation
+%%%%  of original research articles intended for submission to journals published
+%%%%  by Springer Nature. The guidance has been prepared in partnership with
+%%%%  production teams to conform to Springer Nature technical requirements.
+%%%%  Editorial and presentation requirements differ among journal portfolios and
+%%%%  research disciplines. You may find sections in this template are irrelevant
+%%%%  to your work and are empowered to omit any such section if allowed by the
+%%%%  journal you intend to submit to. The submission guidelines and policies
+%%%%  of the journal take precedence. A detailed User Manual is available in the
+%%%%  template package for technical guidance.
+%%%%%=============================================================================%%%%
+
+\jyear{2023}%
+
+%% as per the requirement new theorem styles can be included as shown below
+\theoremstyle{thmstyleone}%
+\newtheorem{theorem}{Theorem}%  meant for continuous numbers
+%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
+%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
+\newtheorem{proposition}[theorem]{Proposition}%
+%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{example}{Example}%
+\newtheorem{remark}{Remark}%
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}{Definition}%
+
+\raggedbottom
+%%\unnumbered% uncomment this for unnumbered level heads
+%set Times New Roman
+\usepackage{times}
+\usepackage{bm}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+\usepackage{amsmath}
+%\usepackage{algorithmic,algorithm}
+\usepackage[switch]{lineno}
+\usepackage{booktabs}
+\usepackage{CJKutf8}
+
+\begin{document}
+
+\title[Article Title]{ALSTMNet: A Novel Stock Trend Prediction Framework Utilizing Multi-source Financial Data Based on LSTM and Attention Mechanisms}
+
+%%=============================================================%%
+%% Prefix	-> \pfx{Dr}
+%% GivenName	-> \fnm{Joergen W.}
+%% Particle	-> \spfx{van der} -> surname prefix
+%% FamilyName	-> \sur{Ploeg}
+%% Suffix	-> \sfx{IV}
+%% NatureName	-> \tanm{Poet Laureate} -> Title after name
+%% Degrees	-> \dgr{MSc, PhD}
+%% \author*[1,2]{\pfx{Dr} \fnm{Joergen W.} \spfx{van der} \sur{Ploeg} \sfx{IV} \tanm{Poet Laureate}
+%%                 \dgr{MSc, PhD}}\email{iauthor@gmail.com}
+%%=============================================================%%
+
+\author[]{\fnm{Yongfeng} \sur{Wang}}\email{wyfeng0707@gmail.com}
+%\equalcont{These authors contributed equally to this work.}
+
+\affil*[]{\orgdiv{School of Computer Science and Cyber Engineering}, \orgname{Guangzhou University}, \orgaddress{\street{}, \city{Guangzhou}, \postcode{510006}, \state{}, \country{China}}}
+
+%\affil*[]{\orgdiv{School of Computer Science and Cyber Engineering}, \orgname{Guangzhou University}, \orgaddress{\street{230 Wai Huan Xi Road, Guangzhou Higher Education Mega Center}, \city{Guangzhou}, \postcode{510006}, \state{Guangdong}, \country{China}}}
+
+
+%\affil[2]{\orgdiv{Department}, \orgname{Organization}, \orgaddress{\street{Street}, \city{City}, \postcode{10587}, \state{State}, \country{Country}}}
+
+
+%%==================================%%
+%% sample for unstructured abstract %%
+%%==================================%%
+\abstract{Stock trend prediction models can help investors to make more exact trading decisions and attract more and more researchers. Stock price data, essentially, are financial time-series data with characteristics such as multi-noise, non-linear, and non-smooth, which prevent most forecasting models from capturing the regularities in the changes of stock data. On the other hand, a large amount of multi-source heterogeneous financial data are generated in the financial industry every day, which is a major obstacle to improving the effectiveness of a stock price prediction model. To improve the accuracy of stock trend prediction, it is quite challenging to fuse multi-source heterogeneous financial data and capture the time dependence of financial time-series data. In the paper, therefore, we propose a novel Attention-based Long Short-Term Memory Network ({\it ALSTMNet}) framework which integrates the deep learning method and the sentiment analysis model, and can effectively capture the temporal dependence among financial data. Our prediction framework consists of two stages. In the first stage, we pre-process the stock price data and social media texts. And then, we employ the wavelet transformer and Chinese Bidirectional Encoder Representations from Transformers (BERT) model to extract valuable information from the data. In the second stage, the fused features are taken as the input to the deep learning framework. In order to further validate the prediction performance of the framework, we conduct experiments on the financial sequence prediction task with real-world datasets. The experimental results show that our proposed prediction framework significantly outperforms the baseline in terms of prediction accuracy.}
+
+%%================================%%
+%% Sample for structured abstract %%
+%%================================%%
+
+% \abstract{\textbf{Purpose:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+%
+% \textbf{Methods:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+%
+% \textbf{Results:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.
+%
+% \textbf{Conclusion:} The abstract serves both as a general introduction to the topic and as a brief, non-technical summary of the main results and their implications. The abstract must not include subheadings (unless expressly permitted in the journal's Instructions to Authors), equations or citations. As a guide the abstract should not exceed 200 words. Most journals do not set a hard limit however authors are advised to check the author instructions for the journal they are submitting to.}
+
+\keywords{Stock trend prediction, Attention mechanism, Multi-source financial data, Long short-term memory}
+
+%%\pacs[JEL Classification]{D8, H51}
+
+%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+
+\maketitle
+
+\section{Introduction}\label{Introduction}
+
+To obtain the maximization of stock value and profit, a large number of investors and researchers are attracted to stock trend prediction. Stock trend prediction is a classic problem that involves both computer science and finance fields. However, due to the chaos, complexity, volatility, and dynamicity of the stock market, stock trend prediction is one of the most challenging tasks for time series prediction\cite{RN169}. In general, the stock market prediction is based on a single source such as structured stock price data and technical indicators, which fails to consider the influence of multi-source heterogeneous data. In big data and cloud computing, huge amounts of heterogeneous financial data are generated every day\cite{RN175}. In a cloud computing environment, financial data present a lot of new features. For example, financial news and financial comments on mobile social media reflect the volatility of stock prices. However, due to the discontinuous and non-stationary behaviors, unstructured data are difficult to be applied to stock prediction\cite{RN159}. How to extract valuable information from this massive heterogeneous data, and further apply them to the automatic learning process of a stock prediction is one of the most challenging works. Generally, researchers adopt Natural Language Processing (NLP) techniques to address this complexity based on stock news and social media text data. In fact, compared with stock news, investors’ comments on social media are more timely. Moreover, the comments often reflect the real mentality of investors to a certain extent\cite{RN158}. Therefore, some researchers have extracted semantic features from these huge amounts of mobile media data, and applied these textual data to predict stock trends\cite{RN177,RN178,RN179}. Recent researches have demonstrated the feasibility of adopting social media for stock prediction and achieved preliminary results. Currently, the major challenge in this research field is that the effectiveness of fusing social media data with stock quantitative information is insufficient, which fails to improve the accuracy of the prediction model.
+
+Another challenge for stock trend prediction is the integration of different prediction models. Model integration can take advantage of diverse models to overcome their shortcomings\cite{RN162}. However, the method of models ensemble may affect the performance of stock trend prediction models. Therefore, to improve the predictive capability of the model, we should study a more effective strategy for model integration. In recent years, compared to traditional machine learning models, deep learning performs more excellent performance in image classification, natural language processing, and various time-series applications, which is attributed to the improvement in combinatorial computing power, the availability of large datasets, and more complex algorithms\cite{RN173}. Long Short-Term Memory (LSTM) is a type of deep learning model that is able to learn sequence information. By assigning different weights to examples, LSTM can distinguish the influence of present and past examples, while forgetting memories deemed irrelevant for predicting the next output. Compared with other recurrent neural networks that can only memorize short sequences, LSTM network is more capable of processing long input sequences\cite{RN183}. However, it is complicated to explain the contribution of each feature sequence in the prediction task, which fails to precisely capture the long-term dependence of the time series. To solve this problem, we introduces the attention mechanism, which is essentially a model trained to optionally learn inputs and associate with output sequences\cite{RN193}. We can allocate distinct weights to the output sequence of each LSTM through the attention mechanism, and thus enhance the interpretability of the model.
+
+To effectively apply the multi-source unstructured data to design and develop more efficient stock prediction methods, therefore, we propose a novel Attention-based LSTM architecture, i.e., {\it ALSTMNet} which integrates the LSTM model that can extract time-series features and the attention mechanism that can allocate enough attention to highlight significant information. Based on NLP, we design a feature extractor to derive deep text features from unstructured social media comment data. And then, to merge these diverse factors that are able to affect the stock trend prediction, the extracted text features are concatenated with the historical stock price data denoised by the wavelet transformer. In our experiments, in order to evaluate the proposed method, we employ three metrics to compare the prediction performance of the proposed model with other benchmark models. Furthermore, we evaluate the performance of the proposed model in diverse circumstances. Shortly, the contributions of our work include:
+
+\begin{itemize}
+	\item We successfully fuse two heterogeneous sources of financial data based on historical price data of stocks and public commentary texts. To obtain better performance on stock prediction tasks, our model captures the combined effects between these information sources based on the attention mechanism.
+    \item We employ a wavelet transformer to extract useful information from quantitative stock data, which contributes to enhance data reliability while reduce the cost of model learning.
+	\item A new deep learning framework, i.e., a novel Attention-based Long Short-Term Memory Network ({\it ALSTMNet}) framework is presented. The framework combines LSTM and attention network to extract the contextual information of financial time-series data, thus effectively addressing the current challenging of stock trend prediction, namely the temporal dependence of financial data.
+	\item Based on three different metrics ({\it Accuracy}, {\it F-score}, and {\it Matthews Correlation Coefficient}), we evaluate the proposed {\it ALSTMNet}. The experimental results show that {\it ALSTMNet} significantly outperforms the other benchmark methods in most cases, which demonstrates the feasibility of our {\it ALSTMNet} framework.
+\end{itemize}
+
+The rest of this paper is arranged as follows. In Section~\ref{2Related work}, the existing work is surveyed, focusing on related research on forecasting stock markets. Section~\ref{3The proposed model} supplies a detailed description of our proposed framework. Section~\ref{4Experiment} interprets the design of the experiment and exhibits the experimental results and discussion. We present our conclusions and identify the directions for future work in Section~\ref{Conclusion and future works}.
+
+\section{Related Work}\label{2Related work}
+
+To predict future market trends, some researchers have employed time-series information of stocks based on historical trading prices and technical indicators. They hope to explore and analyze the regularities among these quantitative data\cite{RN169,RN150,RN151}. To effectively predict future stock prices, Sun et al.\cite{RN204} proposed a Teaching and Learning Based Optimization (TLBO) model, which is based on sentiment analysis using Twitter data. To enhance the overall predictive performance of the model, the TLBO algorithm is used to calculate the optimal output of the LSTM unit. Xu et al.\cite{RN186} generated aligned samples to the neural network model, which is based on stock historical data and social tweets feature. In the prediction phase, to better capture the relationships among the multiple data, they introduced a temporal attention mechanism to cooperate with the neural network structure. The authors of \cite{RN201} developed feature selection method combined with single-layer and multi-layer LSTM models to predict the closing price of the S\&P 500 Index. Additionally, to capture broad stock market behavior, they constructed a balanced portfolio of nine prediction indicators based on basic market data, macroeconomic data, and technical indicators. Li et al. \cite{RN187} hoped to explore the learning capabilities of deep learning methods in the Chinese stock market. The classification results showed that compared with the classic machine learning methods, the deep learning models achieved higher accuracy based on price data and technical indicators. Lai et al. \cite{RN149} proposed a multi-feature learning-based prediction method, which applied TextCNN to acquire information from the news. In addition, TextCNN and Bi-GRU were employed to collaborated for prediction. The above research suggests that building a model that can effectively forecast the real trend of the stock market is a challenging task. This paper presents a hybrid model framework, thus achieving the stock market trend prediction by capturing temporal features of financial data. The results show that our proposed model is effective.
+
+To address the issues of gradient vanishing and learning long-term dependencies from raw data in Recurrent Neural Networks (RNNs), Hochreiter et al. \cite{RN180} proposed Long Short-Term Memory (LSTM) networks. Compared with general RNNs, LSTM achieves these issues through several control information channels that can maintain a constant error flow in its gate structure units. To predict the future trend of the stock price, Nelson et al. \cite{RN183} built the prediction models of LSTM and various machine learning methods according to the price history and technical analysis indicators. The experiment showed that compared with other machine learning methods, LSTM demonstrated considerable improvement in terms of precision. Based on the characteristics of the two deep models, Lu et al. \cite{RN181} proposed a CNN-LSTM stock price forecasting method, which applied a Convolutional Neural Network (CNN) to extract time-series features from the data, then fed them into an LSTM and ultimately achieved the prediction goal. In the data pre-processing stage, wavelet transform was applied to denoise the historical stock price data\cite{RN182}. Then they employed an attention-based LSTM model to make full advantage of the effects among the features. To overcome the overfitting problem in deep neural networks, Baek et al. \cite{RN184} proposed an enhanced financial time-series forecasting approach based on LSTM. The framework consists of two modules: an overfitting prevention LSTM module and a prediction LSTM module, which increases the robustness of the overfitting model. The experimental results showed that compared with the model without overfitting prevention, the prediction errors of the model based on the prevention module decreased. To predict the closing price of the stock on the next day, Lu et al.\cite{RN198} proposed a CNN-BiLSTM-AM method, which is composed of CNN, Bi-directional Long Short-Term Memory (BiLSTM), and Attention Mechanism (AM). Among them, BiLSTM integrates the forward and backward propagation of LSTM network to capture the context information in the time-series. By integrating the properties of multiple models, the accuracy of the overall model prediction is improved. Inspired by the literature above, we consider that the use of LSTM is particularly advantageous in modeling time-series data, such as stock prices. Therefore, LSTM is a suitable choice for our framework.
+
+On the other hand, to improve stock trend prediction, as an alternative major approach, we combine the data sources that can be applied to the indicator of stock prices. In the current, the single-source approaches have obtained some performance improvements. However, many interpretable factors of the financial market have been neglected. Many studies have shown that combining quantitative stock data with other data sources can improve the performance of stock price prediction\cite{RN162,RN160,RN196}. Zhang et al. \cite{RN159} employed the Transformer encoder and attention mechanism to predict stock trends. To overcome the time dependence of financial data and insufficient fusion effect based on text and stock price information, a Capsule network model based on a Transformer Encoder (CapTE) was proposed in \cite{RN158}, which employed a transformer encoder to derive deep semantic features from social media text, and then the capsule network was used to capture the structural relationships of these texts. The experiments found a correlation between financial text information and stock price changes. To forecast stock price movements, Ma et al. \cite{RN203} proposed a Multi-source Aggregated Classification (MAC) method, which integrates the digital features of the target stock and the news sentiment driven by the market, as well as the news sentiment of related stocks. In addition, they introduce graph convolutional networks to capture the influence of related company news on the target stock. Finally, according to various features, the stock price trend of the next trading day is predicted. Jin et al. \cite{RN200} introduced a sentiment analysis model which incorporates CNN and Word2-Vec. Furthermore, Empirical Mode Decomposition (EMD) is employed to decompose the complex sequence of stock closing prices, thus achieving better prediction accuracy. Finally, sentiment index and stock data are integrated as input features for the prediction component. As seen from the abovementioned research, compared with single-source data, the fusion of multi-source data can be used to predict the future trend of stocks more accurately, thus helping investors to make more exact decisions. However, in multi-source data fusion, many challenges, such as inconsistent data sources, and different formats and structures of data, may lead to the failure of data fusion. Moreover, there can also be significant variation in the quality of multi-source data, some of which may be incorrect or missing, which keeps a negative impact on the fusion results. To address these issues, in the paper, we propose a novel multi-source data fusion framework which solves the above challenges based on the cooperation between models.
+
+\section{The proposed model}\label{3The proposed model}
+In the section, we give a detailed discussion on the hybrid predictive model, i.e., {\it ALSTMNet}, which integrates the deep learning method and the sentiment analysis model. {\it ALSTMNet} consists of three main parts: data pre-processing, feature extractor, and concatenation processor. Firstly, the data pre-processing is responsible for normalizing the data and cleaning the text data. Then, the feature extractor employs the wavelet transformer to decompose historical stock price data. In addition, the sentiment polarity of online social network text data is classified and the overall sentiment value of investors is calculated on each trading day by employing the sentiment analysis model based on \cite{RN167}. Finally, to achieve exact predictive results, the sentiment analysis results are fused with the stock prices based on the LSTM neural network with the attention mechanism. The framework of the proposed model is illustrated in Fig. \ref{fig1}.
+
+\renewcommand{\figurename}{Fig.}
+\begin{figure}[h]%
+	\centering
+	\includegraphics[width=0.8\textwidth]{images/framework.jpg}
+	\caption{The architecture of the proposed model.} \label{fig1}
+\end{figure}
+
+\subsection{Data source}\label{Data source}
+In order to examine the proposed model, we construct a knowledge base that consists of two parts: quantitative data on stocks and social media text on stocks. We obtain historical daily financial time series and investor comments text of the period from January 2020 to January 2022. The Shanghai Composite Index (000001.SH) and Shenzhen Component Index (399001.SZ) are adopted as the research datasets. The quantitative historical data contains eight features: the open price {\it open}, the close price {\it close}, the lowest price {\it lowest}, the highest price {\it highest}, {\it volume}, {\it change}, the range of ups and downs {\it range}, and {\it amount}. Hence, the price vector of the trading day $i$ is denoted as shown in Eq. (\ref{eq1}).
+\begin{equation}
+V_i = \left[open_i, close_i, lowest_i, highest_i, volume_i, change_i, range_i, amount_i\right]     \label{eq1}
+\end{equation}
+
+We let $\mathbf{V}=\left\{ V_1,V_2, \ldots,V_N\right\}$ be the the price vector set, i.e., $V_i\in\mathbf{V}$, where $N$ represents the amount of trading days.
+
+Many investors often express their views on an active financial social network. We collect $1,691,121$ discussion messages about the Shanghai Composite Index from the web platform (\url{https://guba.eastmoney.com/}), each of which contains the post time, user ID, and comment content. These public comments can reflect the sentiment of market investors to a certain extent, and thus, can be considered as an indicator of market sentiment.
+Since stock declines often require more upticks to be compensated, we slightly enlarged the threshold for upticks. In the paper, two specific thresholds, $0.55\%$ and $-0.5\%$, are set for the binary classification of stock trends. We let $0$ and $1$ represent the downward and upward trends of stocks, respectively. The change rate $r_i$ of the stock price of day $i$ is calculated according to Eq. (\ref{eq2}).
+\begin{equation}
+r_i=\frac{close_i-close_{i-1}}{close_{i-1}} \label{eq2}
+\end{equation}
+where $close_{i-1}$ and $close_i$ represent the closing prices of day $i-1$ and day $i$, respectively.
+
+A quantitative approach is employed to analyze the trends of our dataset. First, we compute the change rate of all historical data according to Eq. (\ref{eq2}). And then, the results are classified (up or down) based on two thresholds. Our results indicate that the majority of the targets exhibit an upward trend (50.21\%), while a significant proportion shows a downward trend (43.83\%). Notably, a small percentage of the targets (5.97\%) display no change. To balance the sample size between the two classes, targets between two threshold values were assigned to the downward trend class. The stock trend of day $i$, $\theta_i$, is calculated by (\ref{eq21}).
+\begin{equation}
+\operatorname{\theta_i}=\left\{\begin{array}{cc}0 & r_i \leq-0.5 \\ \\ 1 & r_i \geq 0.55\end{array}\right. \label{eq21}
+\end{equation}
+
+This approach is a common binary classification, which ensures the two classes have the same impact on the results. Furthermore, it helps to minimize any potential errors that arise from the unequal sample size.
+\subsection{Data preprocessing and Feature extractor}\label{Data preprocessing and Feature extractor}
+We firstly discuss the pre-processing of multi-source data and then demonstrate how to extract effective features from these data.
+\subsubsection{Quantitative dataset processing}\label{Quantitative dataset processing}
+Due to the magnitude discrepancy between diverse quantified data, the large values may be assigned with larger weights and the smaller values may be neglected when the raw historical data are directly input into the model. In order to overcome the challenge, the raw historical data should be normalized. As a result, we obtain the normalized value $d'_r$ of the raw historical data $d_r$ by Eq. (\ref{eq3}).
+\begin{equation}
+d'_r=\frac{d_r-\bar{d_r}}{\gamma}  \label{eq3}
+\end{equation}
+where $\bar{d_r}$ represents the mean of all quantitative data and $\gamma$ represents the standard deviation of all quantitative data.
+
+Wavelet transform carries the ability to decompose and reconstruct non-stationary financial time-series data, which derive from distinct temporal and frequency scales. Therefore, we give a more effective analysis on time-series data by combining wavelet analysis technology. The pre-processing is used to minimize the Root Mean Square Error (\emph{RMSE}) between the signals before and after transformation, and facilitate the noise in the original data. \emph{RMSE} is calculated according to Eq. (\ref{eq4}).
+\begin{equation}
+R M S E=\sqrt{\frac{1}{N} \sum_{r=1}^N\mid\widehat{d'}_r-d'_r\mid}                      \label{eq4}
+\end{equation}
+where $N$ denotes the number of data samples to be handled, and $\widehat{d'}_r$ is the processed value of $d'_r$ by wavelet transform.
+
+In this study, the normalized data $d^{\prime}_r$ are obtained by the Eq. (\ref{eq3}). We apply the method proposed in \cite{RN190} to separate the effective part from the original data $d_r$. First, an orthogonal wavelet basis is selected with an appropriate number of decomposition levels. As the decomposition level increases, the low-frequency components removed by wavelet transform also increase. By do so, the data denoise is more efficient, but the distortion also becomes more serious. Therefore, we employ the \emph{coif3} function with three decomposition levels as the wavelet basis function. Then, threshold of the decomposed wavelet coefficients is generally processed by two methods, i.e., hard thresholding and soft thresholding. In hard thresholding, coefficient whose magnitude is above the threshold are kept, while those below the threshold are set to be zero. On the other hand, in soft thresholding, coefficient whose magnitude is above the threshold shrunk towards zero, while those below the threshold are set to be zero. According to the authors of \cite{RN189}, the denoised signal obtained by the soft thresholding is an optimal approximation of the original data. For this reason, the soft thresholding is adopted in this study. Finally, we evaluate the effect of the wavelet transform by its \emph{RMSE}. The smaller the \emph{RMSE} is, the better the denoising effect of the wavelet transforms.
+
+\subsubsection{Textual dataset processing}\label{Textual dataset processing}
+A series of pre-processing methods are firstly employed to deduplicate, filter out invalid information, and detect missing values from the raw public comment dataset. Then, we obtained a high-quality dataset containing 1,244,820 text data, which reflects public opinion and preferences more exactly.
+
+In order to conduct a reasonable sentiment evaluation on public comments data, we first manually annotate the text dataset, and then we integrate these data into a training dataset with 30,000 labeled texts. To better analyze the text data, in the next, we employ the Chinese Bidirectional Encoder Representations from Transformers (BERT) model\cite{RN167}, which is a Chinese pre-trained model based on Whole Word Masking (WWM) technology. Compared with English datasets, there are some differences when conducting sentiment analysis on Chinese datasets. One significant difference is the segmentations of Chinese sentences typically consist of a sequence of characters without clear word boundaries. In contrast, English sentences are usually composed of words that are separated by spaces. This means that Chinese sentiment analysis must involve an additional step of word segmentation, which identifies the individual words within a sentence. Therefore, in the pre-training task of Chinese, we split the sentences into segments according to the complete words, and generate a WWM for the sentence task. The benefit of WWM is that it enables the pre-trained model to actually learn to apply the context information for prediction, rather than simply remember some fixed words, such as "\emph{up}", "\emph{growth}", etc.
+
+Table \ref{tab1} illustrates the preprocessing of a Chinese sample sentence in the dataset. The first row is the original sentence, which means that "{\it The stock market index returned to above 3600 today, indicating its capability to enter the main rising stage.}" in English. The second row is the words after splitting, and the third row is the words after processing through WWM.
+
+\begin{CJK}{UTF8}{gbsn}
+\renewcommand{\tablename}{Table}
+\begin{table}[h]
+	\begin{center}
+		\begin{minipage}{\textwidth}
+			\caption{Illustration of pre-processing for Chinese} \label{tab1}
+			\begin{tabular}{@{\extracolsep{\fill}}ll@{\extracolsep{\fill}}}
+				\toprule
+				Type & Data \\
+				\midrule
+				Sentence & 今天大盘指数重回3600上方，代表指数具备进入主升阶段的能力。 \\
+				 & (The stock market index returned to above 3600 today, indicating its capability to enter the\\
+				 & main rising stage.) \\
+				Words & $\vert$ 今天 $\vert$ 大盘 $\vert$ 指数 $\vert$ 重回 $\vert$ 3600 $\vert$ 上方 $\vert$，$\vert$ 代表 $\vert$ 指数 $\vert$ 具备 $\vert$ 进入 $\vert$ 主升 $\vert$ 阶段 $\vert$ 的 \\
+ 				 & $\vert$ 能力。 \\
+				 & (The $\vert$ stock market $\vert$ index $\vert$ returned to $\vert$ above $\vert$ 3600 $\vert$ today, indicating $\vert$ its $\vert$ capability $\vert$  \\
+				 & to enter $\vert$ the $\vert$ main rising $\vert$ stage.) \\
+				Mask & 今天大盘指数[Mask]3600上方，代表[Mask]具备进入[Mask]阶段的[Mask]。 \\
+				 & (The stock market index [Mask] above 3600 today, indicating [Mask] [Mask] to enter the \\
+				 & [Mask] stage.) \\
+				\botrule
+			\end{tabular}
+		\end{minipage}
+	\end{center}
+\end{table}
+\end{CJK}
+
+Based on WWM technology, we first to process all sentences from datasets. Next, the processed texts are encoded to generate word vectors and output them to downstream tasks. Finally, we set a single-layer fully connected network and adopt the \emph{softmax} function to acquire the predicted classification probability. The sentiment polarity scores are defined within the range of [0.0, 1.0], where 0.0 is considered negative and 1.0 is considered positive. For the downstream task, a small amount of labeled training data is used for supervised learning to fine-tune the pre-trained model. The model with the highest accuracy is picked to evaluate the other 1,214,820 textual data. Ultimately, a sentiment-labeled dataset is obtained.
+
+\subsection{Sentiment analysis}\label{Sentiment analysis}
+The daily public sentiment is quantified by extracting sentiment values from social media comments. Let $Q^{c,i}_l$ be the $l$th positive sentiment value for comment $c$ published on trading day $i$. The daily investor sentiment vector $S_i$ is calculated by average of all $Q^{c,i}_l$ in the same day, as follows:
+\begin{equation}
+S_i=\frac{1}{N_i} \sum_{l=1}^{N_i}Q^{c,i}_l  \label{eq5}
+\end{equation}
+where $N_i$ is the total number of comments released on day $i$.
+
+\subsection{Concatenation processor}\label{Concatenation processor}
+In the previous section, we construct a feature extractor to extract features from both quantitative data and social media texts through multiple models. The advantage of this approach is that it can effectively avoid the dimensional discrepancy problem caused by the heterogeneity of data sources. In the section, we introduce the components of the concatenation processor in detail, including sequential data fusion, as well as the LSTM model and attention mechanism, as shown in Fig. \ref{fig2}.
+
+\begin{figure}[h]%
+	\centering
+	\includegraphics[width=1\textwidth]{images/processor.jpg}
+	\caption{The detailed of concatenation processor.} \label{fig2}
+\end{figure}
+
+\subsubsection{Sequential data fusion}\label{Sequential data fusion}
+The price vector $V_i$ and the sentiment vector $S_i$ of the same trading day $i$ can be matched with their timestamps. Firstly, we concatenate $V_i$ and $S_i$ within the trading day $i$, which is denoted as $X_i$ in Eq. (\ref{eq6}).
+\begin{equation}
+	X_i=\left[V_i, S_i\right] \label{eq6}
+\end{equation}
+
+Then we split the input sequence into multiple windows with the same size $M$. Each window is denoted as $X_i^M=\left[X_{i}, X_{i+1}, \ldots, X_{i+M-1}\right]$, where the index $i$ represents trading date. $X_i$ is obtained according to Eq.(\ref{eq6}) and represents all stock information for each trading day. To better fit the actual trading situation of the Chinese stock market, we let $M$ be $10$ in the study. Moreover, we set $\phi_i=\theta_{i+M}$ as the label of sequence $X_i^M$. So, the data $D_i$ of day $i$ can be denoted as $\left(X_i^M,\phi_i\right)$. Finally, each $\left(X_i^M,\phi_i\right)$ is input to LSTM network according to their sequential order, which captures the temporal dependencies and the patterns of the data.
+
+\subsubsection{LSTM Layer}\label{LSTM Layer}
+\begin{figure}[h]%
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/lstm.jpg}
+	\caption{The structure of LSTM.} \label{fig3}
+\end{figure}
+The structure of a LSTM cell is described in Fig. \ref{fig3}. The LSTM memory cell is dominated by three gates, including forget gate, input gate, and output gate, denoted as $f_t$, $i_t$ and $o_t$, respectively. At time step $t$, the LSTM cell consists of the input value $x_t$ as well as the recurrent hidden state $h_{t-1}$ and cell state $C_{t-1}$ of time step $t-1$. Firstly, LSTM cell discards partial information of $h_{t-1}$ and $x_t$ through the forget gate $f_t$, which is obtained the \emph{sigmoid} unit $\sigma$, as shown in Eq. (\ref{eq7}).
+\begin{equation}
+f_t=\sigma\left(W_f \cdot\left[h_{t-1}, x_t\right]+b_f\right) \label{eq7}
+\end{equation}
+where $W_f$ is a weighted matrix of the forget gate, $b_f$ is a bias vector of the forget gate. According to Eq. (\ref{eq7}), the value of $f_t$ is between $0$ and $1$, where $1$ represents completely retaining the past information, and $0$ represents completely forgetting it.
+\begin{equation}
+i_t=\sigma\left(W_i \cdot\left[h_{t-1}, x_t\right]+b_i\right) \label{eq8}
+\end{equation}
+where $W_i$ is a weighted matrix of the input gate, $b_i$ is a bias vector of the input gate, and $i_t$ is in the range of (0,1). In the next step we add the new information into the cell state and update the old information according to Eq.~(\ref{eq9}).
+\begin{equation}
+\tilde{C}_t=tanh \left(W_c \cdot\left[h_{t-1}, x_t\right]+b_c\right) \label{eq9}
+\end{equation}
+where $W_c$ is a weighted matrix of the \emph{tanh} layer, $b_c$ is a bias vector. The cell state $\tilde{C}_t$ is a candidate term that updates the cell state $C_t$. The input gate $i_t$ decides how $\tilde{C}_t$ should be added into $C_t$.
+\begin{equation}
+C_t=f_t * C_{t-1}+i_t * \tilde{C}_t \label{eq10}
+\end{equation}
+Finally, the feature output $h_t$ of the cell state is determined by the value of the output gate, as follows:
+\begin{equation}
+o_t=\sigma\left(W_o\left[h_{t-1}, x_t\right]+b_o\right) \label{eq11}
+\end{equation}
+\begin{equation}
+h_t=o_t * tanh \left(C_t\right) \label{eq12}
+\end{equation}
+where $W_o$ is the weighted matrix of the output gate, $b_o$ is the bias vector of the output gate. Here, $h_t$ can be denoted as $[B_t,V_t,Z_t]$, where $B_t$ is the batch size, $V_t$ is the dimension of input data variables, and $Z_t$ is the size of the LSTM hidden layer at time step $t$.
+
+In Fig. \ref{fig2}, the fused data are input into the LSTM layer, and multiple LSTM units are extended according to the time step. Then, the special gate structure converts the input sequence into an output vector that can exactly represent major information.
+
+\subsubsection{Attention Layer}\label{Attention Layer}
+In stock trend prediction, data with diverse time steps may have various impact on the prediction results\cite{RN159}. To address the issue, different weights are assigned to different parts of the input in our attention mechanism. The part with a larger weight means the part deserves more attention. Additionally, with the increase of neural network parameters, the expressive ability of the model and the amount of stored information also increases, which may lead to the concern of information overload. The attention mechanism can precisely handle important data and reduce unnecessary computations, thereby improve the accuracy and efficiency of the model. To enhance the modeling capability of LSTM, we construct an attention layer between LSTM and Output layer. The details of the attention layer are shown in Fig. \ref{fig2}. As shown in Fig. \ref{fig2}, the attention layer is a significant component of the concatenation processor. In our study, the output of the hidden layer $h_t$ of LSTM is fed as input of the attention layer. In the first, we apply $tanh$ function to calculate the attention score $u_t$ of the input information, as shown in (\ref{eq13}).
+\begin{equation}
+u_t=tanh \left(W_1[h_{t}, x_t]+b_u\right) \label{eq13}
+\end{equation}
+where the time step $t$ represents the current time index in the sequence being processed, $W_1$ is the weight matrix, and $b_u$ is the bias vector. $u_t$ combines the input parameters through the \emph{tanh} layer to gain the matching degree of each element in the input information.
+
+Then, the \emph{softmax} function of Eq.~\ref{eq14} is used to normalize the attention scores $u_t$ to obtain the attention weight $\alpha_t$, which represents the importance of each value.
+\begin{equation}
+\alpha_t=\frac{\exp\left(W_2 u_t\right)}{\sum_t\exp\left(W_2 u_t\right)} \label{eq14}
+\end{equation}
+where $W_2$ is the weight matrix. The probability vector composed of $\alpha_t$ is regarded as the attention distribution, which is used to distinguish the inputs of different models.
+
+Finally, we let $\alpha_t$ be the weighted average with the input information, and obtain the result $Y_j$ of the $j$th batch through the attention layer.
+\begin{equation}
+Y_j=\sum_{t=0}^{M-1} \alpha_th_t \label{eq15}
+\end{equation}
+
+Based on the output of the attention layer, we obtain the optimized parameters through a Fully Connected (FC) layer. The optimized process of the concatenation processor is described in Algorithm \ref{algo1}.
+\begin{algorithm}[htbp]
+\caption{The parameter training of the concatenation processor}
+\label{algo1}
+%\algsetup{indent=0.5em}
+%\small
+\begin{algorithmic}[1]
+%\small
+\nolinenumbers
+\State \textbf{Input:}
+\State $\quad$ Batch size: $B$;
+\State $\quad$ Data set $\mathbf{D}=\left\{D_1,D_2,\dots,D_N\right\}$, where $D_i$ is denoted as $\left(X_i^M,\phi_i\right)$, $X_i^M$ denotes the data in a time windows size with $M$, $i=1,2,\cdots,N$;
+\State $\quad$ Learning rate: $\eta$;
+\State \textbf{Output:}
+\State $\quad$ The trained model parameter set;
+\linenumbers
+\State Construct the true label set $\boldsymbol{\mathbf{J}}$ of $\mathbf{D}$ according to $\phi_i$: $\boldsymbol{\mathbf{J}} =\left[\phi_1,\phi_2,\ldots, \phi_N\right]$;
+\State Let $\boldsymbol{\mathbf{P}}=\left\{w_f,w_i,w_c, w_o, w_1, w_2, b_f, b_i, b_c, b_o, b_u\right\}$; //Initialize the weights and biases of the neural network, where $w_*$ denote the weights and $b_*$ denote the biases.
+\State Let $K = \lceil N /(B*M) \rceil$; // Calculate the number of training batches.
+\For {$j=1$ : $K$}
+    \State $\mathbf{B}_j=\left\{D_{(j-1)*B+1},D_{(j-1)*B+2},\dots, D_{j*B}\right\}$;  //Divide data set $\mathbf{D}$ and obtain the $j$th batch input $\mathbf{B}_j$ of the LSTM layer.
+    \For {$l=1 : B$}
+       \For {$t=1 : M$}
+          \State Generate output $h_t$ of the LSTM hidden layer by Eq. (\ref{eq7}) - Eq. (\ref{eq12});
+          \State Compute the output $Y_t$ of the attention layer by Eq. (\ref{eq13}) - Eq. (\ref{eq15});
+          \State Obtain the individual binary classification result of the $t$th data of the $l$th window data in $\mathbf{B}_j$, $I_{l,t}^j$, based on $Y_t$;
+       \EndFor
+        \State Obtain the binary classification result set $\mathbf{I}_l^j=\left\{I_{l,1}^j,I_{l,2}^j,\dots,I_{l,M}^j\right\}$ through the fully connected neural network.
+    \EndFor      
+    \State Construct binary classification result set of $\mathbf{B}_j$ $\mathbf{I}_j=\left\{\mathbf{I}_1^j,\mathbf{I}_2^j,\dots,\mathbf{I}_B^j\right\}$.
+    \State Let $\boldsymbol{\widehat{\mathbf{I}}_j} =\emptyset$; // $\boldsymbol{\widehat{\mathbf{I}}_j}$ is the prediction results set of $\mathbf{B}_j$.
+    \State Let $\boldsymbol{\widehat{\mathbf{J}}_j}=\emptyset$;  //  $\boldsymbol{\widehat{J}_j}$ is the true label set of $\mathbf{B}_j$.
+    \For {$k=1 : B$}    //Construct the prediction result set of $\mathbf{B}_j$.
+        \State $\boldsymbol{\widehat{\mathbf{I}}_j}\gets\boldsymbol{\widehat{\mathbf{I}}_j}\bigcup\{\arg\max{I_k^j}\}$;  //Obtain the index of the maximum binary classification value, and join into $\boldsymbol{\widehat{\mathbf{I}}_j}$.
+        \State $\boldmath{\widehat{\mathbf{J}}_j} \gets\boldsymbol{\widehat{\mathbf{J}}_j}\bigcup\{\phi_{B(j-1)+k}\in\boldsymbol{\mathbf{J}}\}$;  //Construct the true label set of $\mathbf{B}_j$ from $\boldsymbol{\mathbf{J}}$.
+    \EndFor
+    \State $s_j = -\frac{1}{B}\sum_{k=1}^{B} \left[\phi_{B(j-1)+k}\log I_k^j + (1- I_k^j) log(1-\phi_{B(j-1)+k})\right]$; //Compute the cross-entropy $s_j$ of $\mathbf{B}_j$.
+    \State Use the back-propagation algorithm\cite{RN216} to calculate the gradient $g_j$ for $\boldsymbol{\mathbf{P}}$;
+    \State Use Adam optimizer\cite{RN191} to update $w_*\in\boldsymbol{\mathbf{P}}$ and $b_*\in\boldsymbol{\mathbf{P}}$ based on $(g_j,s_j,\eta)$;
+\EndFor
+\State {\bf Return} the trained parameter set $\mathbf{P}$.
+\nolinenumbers
+\end{algorithmic}
+\end{algorithm}
+
+\section{Experiments}\label{4Experiment}
+\subsection{Training setup}\label{Training setup}
+In this study, the empirical research is conducted on two datasets (Shanghai Composite Index and Shenzhen Component Index). The Shanghai Composite Index is a measure of the overall performance of the Shanghai Stock Exchange and is recognized to be the most representative stock index in China; the Shenzhen Component Index reflects the price changes of companies listed on the Shenzhen Stock Exchange and is calculated by market capitalization weighting, which is an important indicator of the Shenzhen Stock Market. In the above datasets, we employ the data of $486$ trading days from January 1st, 2020 to January 1st, 2022.
+
+The prediction process consists of three stages: training, validation, and testing. In the training stage, the model parameters are optimized by training the model based on the loss function. In the validation stage, hyperparameters are adjusted to obtain appropriate model settings according to the validation results. Finally, in the testing stage, the optimized model is employed to predict the data and the results are recorded under various experimental configurations. The training configuration is as follows: 64 mixed samples are used in a single batch, the maximum historical calendar days are set to 10, and the maximum number of words in a single message is set to 80. For the LSTM learning model, the number of hidden neurons is set to 64. The traditional Adam optimizer~\cite{RN191} is used to train the model, the initial learning rate is 0.001, and the maximum number of learning times is 100. The whole method is implemented in Pytorch (version 1.10.0).
+
+\subsection{Model evaluation}\label{Model evaluation}
+For the purpose of evaluating the predictive performance of the proposed model framework, \emph{Accuracy}, \emph{F-score}, and Matthews Correlation Coefficient (\emph{MCC}) are adopted as the indicators. \emph{Accuracy} measures the number of correctly classified samples as the total number of samples. \emph{F-score} takes both precision and recall into consideration to evaluate a classifier more comprehensively. \emph{MCC} is essentially a correlation coefficient between observed and predicted binary classes.
+\begin{equation}
+Accuracy=\frac{T N+T P}{{F P}+{T P}+{T N}+{F N}} \label{eq16}
+\end{equation}
+\begin{equation}
+F-score=\frac{2 \times T P}{2 \times({T P}+{F P}+{F N})} \label{eq17}
+\end{equation}
+\begin{equation}
+M C C=\frac{T P \times T N-F P \times F N}{\sqrt{(T P+F P)(T P+F N)(T N+F P)(T N+F N)}} \label{eq18}
+\end{equation}
+
+where \emph{FN} stands for false negative (false negative), \emph{TP} stands for correct recognition (true positive), \emph{TN} stands for correct rejection (true negative), and \emph{FP} stands for incorrect recognition (false positive). The higher the values of \emph{Accuracy}, \emph{F-score}, and \emph{MCC}, the better the model fit and the higher the prediction precision.
+\subsection{Experimental results}\label{Experimental results}
+This experiment consists of two parts: one group of experiments designed to verify the feasibility of the proposed model {\it ALSTMNet} by comparing its performance with the baseline model. The other group of experiments intends to further investigate the composition of {\it ALSTMNet} by constructing its variants (i.e., ablation studies) to analyze its components in detail.
+
+\subsubsection{Comparison with baseline models}\label{Comparison with baseline models}
+In this section, we compare {\it ALSTMNet} with several classical baseline methods based on stock prediction articles in recent years. These models share many similarities in that they all employ basic neural network architectures to solve the stock market prediction problem.
+
+\begin{itemize}
+	\item LSTM: A special type of recurrent neural network for remembering long-term dependencies\cite{RN180}.
+	\item CNN: A traditional deep learning model that extracts features from input data by constructing deep networks using convolutional layers, pooling layers, and fully connected layers\cite{RN197}.
+	\item CNN-LSTM: A stock prediction model based on CNN-LSTM, integrating the advantages of CNN which focuses on key features and the powerful long-sequence learning capability of LSTM\cite{RN181}.
+	\item EMDAM-LSTM: A sentiment analysis model based on CNN and word2-vec for deriving sentiment indices from stock market comments. In the pre-processing, the stock closing price sequence is input into the Empirical Modal Decomposition (EMD) module to gain multiple intrinsic modal functions (IMFs) representing the sequence trends. For the prediction task, the sentiment indices and trend signals are combined as the input of long short-term memory (LSTM) and attention model\cite{RN200}.
+	\item CNN-BiLSTM-AM: A method composed of CNN, BiLSTM, and AM for time series prediction. CNN is used to extract features from the input data; BiLSTM performs the prediction task with the extracted features; AM captures the influence of distinct time feature states on the prediction results, thus improving the prediction accuracy. The BiLSTM network contains two hidden layers, one is the forward propagation hidden layer and the other is the backward propagation hidden layer, and the outputs of these two hidden layers are concatenated together to form the final output. It can conduct bidirectional processing of time-series data, thus effectively extracting the context information in the time-series\cite{RN198}.
+\end{itemize}
+
+\begin{table}[h]
+	\begin{center}
+		\begin{minipage}{\textwidth}
+			\caption{Performance results on the test set}\label{tab2}
+			\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllllll@{\extracolsep{\fill}}}
+				\toprule%
+				& \multicolumn{3}{@{}c@{}}{Dataset 1 (000001.SH)} & \multicolumn{3}{@{}c@{}}{Dataset 2 (399001.SZ)} \\\cmidrule{2-4}\cmidrule{5-7}%
+				Models & Accuracy & F-score & MCC & Accuracy & F-score & MCC \\
+				\midrule
+				LSTM & 0.557 & 0.367 & 0.119 & 0.561 & 0.392 & 0.124 \\
+				CNN  & 0.55  & 0.376 & 0.1   & 0.552 & 0.382 & 0.112 \\
+				CNN-LSTM  & 0.586 &	0.453 & 0.178 &	0.583 &	0.475 &	0.169 \\
+				EMDAM-LSTM  & 0.613 & 0.552 & 0.265 & 0.607 & 0.551 & 0.262 \\
+				CNN-BiLSTM-AM  & 0.622 & \textbf{0.612} & 0.282 & 0.609 & 0.598 & 0.275 \\
+				{\it ALSTMNet}  & \textbf{0.638} & 0.578 & \textbf{0.313} & \textbf{0.628} & \textbf{0.613} & \textbf{0.302} \\
+				\botrule
+			\end{tabular*}
+		\end{minipage}
+	\end{center}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{images/acc.jpg}
+	\caption{Comparison of Accuracy.} \label{fig4}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{images/fc.jpg}
+	\caption{Comparison of F-score.} \label{fig5}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{images/mcc.jpg}
+	\caption{Comparison of MCC.} \label{fig6}
+\end{figure}
+
+Our proposed {\it ALSTMNet} achieved nearly optimal results on the datasets of 000001.SH and 399001.SZ, with \emph{Accuracy}, \emph{F-score}, and \emph{MCC} increasing by more than 13\%, 37\%, and 62\%, respectively, compared to the classic models LSTM and CNN (see Table \ref{tab2}). In addition, the bar charts in Fig. \ref{fig4}, \ref{fig5}, and \ref{fig6} more intuitively show the variations of the three evaluation metrics, which further demonstrates the significant improvement of our proposed method. Due to accuracy is the most intuitive indicator of predictive ability, we first observe Fig. \ref{fig4}, which shows the \emph{Accuracy} performance of the models on different datasets. Even the worst-performing CNN can obtain the \emph{Accuracy} of 0.55 or above, which indicates the potential advantages of deep learning models for predicting stock trends. Since stock trend prediction is a challenging task and even small numerical changes may lead to significant profits. Therefore, the \emph{Accuracy} of 0.638({\it ALSTMNet}) is generally considered a satisfactory result for binary classification of stock trend prediction. Compared to the accuracy distribution, the discrepancy of the models in the \emph{F-score} and \emph{MCC} are more distinct. The classic single models LSTM and CNN achieve extremely low levels in \emph{F-score} and \emph{MCC}. On the other hand, other mixed models outperform the single models, indicating the feasibility of the model ensemble. Additionally, Fig. \ref{fig5}(c) displays that CNN-BiLSTM-AM achieved the best performance in \emph{F-score}, which means that the model tends to predict true positives. In this case, the model can successfully classify most samples correctly, but cannot capture all possibilities in the real situation. Therefore, to comprehensively evaluate the predictive ability of the model, we should simultaneously consider \emph{Accuracy}, \emph{F-score}, and \emph{MCC}.
+
+Next, we compare the baseline models and {\it ALSTMNet} on our dataset in terms of frameworks. The CNN-LSTM model appends a CNN structure to capture crucial features and thus reduces the possibility of the LSTM model memorizing useless information. Therefore, in comparison to a single classical model, it obtains better performance obviously. Furthermore, from the results of EMDAM-LSTM, CNN-BiLSTM-AM, and our proposed model, we can demonstrate that the attention-based methods have a significant performance improvement. Therefore, we can give a conclusion that the attention mechanism can make excellent use of the temporal sequence information captured by LSTM, thus improving the accuracy of the overall model. Moreover, the attention mechanism focuses on important information while ignoring irrelevant information, thus improving the efficiency of the prediction model. Furthermore, due to LSTM can only capture the most recent information, long-sequence information fails to be handled flexibly. Hence the attention mechanism can effectively fix the shortcomings of LSTM. Nevertheless, the results of {\it ALSTMNet} are still superior to those of other attention-based methods. The major reason is the input data of the CNN-BiLSTM-AM model are limited, only containing the stock trading data and not including other financial data that may impact the stock price trend. Compared to CNN-BiLSTM-AM, {\it ALSTMNet} integrates unstructured text sentiment data and structured quantitative data. Due to the more comprehensive data gathered from various sources, it can depict the actual situation more precisely, which demonstrates the feasibility of multi-source heterogeneous data fusion. On the other hand, in the text feature extraction, EMDAM-LSTM model adopts the Word2-Vec and CNN structure, while {\it ALSTMNet} employed the Chinese BERT model. In comparison to CNN, BERT based on transformer structure allows it to capture the context relations in the sentence, which can acquire exact semantic information from the text. Although the EMDAM-LSTM model incorporates more input data, its sub-models lack practical applicability, which leads to sentiment analysis is not accurate enough. Therefore, the choice of appropriate sub-models carries a significant impact on the experimental results. In addition, inspired by the wavelet transformer,  {\it ALSTMNet} effectively eliminates noise in time-series data, reducing the complexity of time-series data and strengthening the analysis capability of other components on the data. The variety of reasons mentioned above is the key to the superior performance of {\it ALSTMNet}.
+
+The overall prediction results of the baseline model show that the two datasets contain similar data attributes, and the overall baseline model performs well in generalization ability. In conclusion, compared with all other models, {\it ALSTMNet} demonstrates significant improvement in three evaluation metrics, indicating that the {\it ALSTMNet} model achieves satisfactory prediction results by addressing the problem of temporal dependence and fusing multi-source heterogeneous data.
+
+\subsubsection{Ablation study}\label{Ablation study}
+Apart from the complete {\it ALSTMNet}, we also created five variants to clearly analyze the internal working behavior of the model. Among them, {\it ALSTMNet}\_price represents that the input data does not include social media text. Moreover, the step parameters of the variants are set to 5 days, 7 days, 10 days, and 15 days, respectively, named {\it ALSTMNet}\_5, {\it ALSTMNet}\_7, {\it ALSTMNet}\_10, and {\it ALSTMNet}\_15.
+
+\begin{itemize}
+	\item {\it ALSTMNet}\_price: The {\it ALSTMNet} with original parameters only uses historical prices as input data.
+	\item {\it ALSTMNet}\_text: The {\it ALSTMNet} with original parameters only uses social media text as input data.
+	\item {\it ALSTMNet}\_5: The alternative parameter settings of {\it ALSTMNet} correspond to a sliding window of 5 trading days.
+	\item {\it ALSTMNet}\_7: The alternative parameter settings of {\it ALSTMNet} correspond to a sliding window of 7 trading days.
+	\item {\it ALSTMNet}\_10: The alternative parameter settings of {\it ALSTMNet} correspond to a sliding window of 10 trading days. And this is the original configuration of {\it ALSTMNet}.
+	\item {\it ALSTMNet}\_15: The alternative parameter settings of {\it ALSTMNet} correspond to a sliding window of 15 trading days.
+\end{itemize}
+
+\begin{table}[h]
+	\begin{center}
+		\begin{minipage}{\textwidth}
+			\caption{Performance results on the test set}\label{tab3}
+			\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lllllll@{\extracolsep{\fill}}}
+				\toprule%
+				& \multicolumn{3}{@{}c@{}}{Dataset 1 (000001.SH)} & \multicolumn{3}{@{}c@{}}{Dataset 2 (399001.SZ)} \\\cmidrule{2-4}\cmidrule{5-7}%
+				Models & Accuracy & F-score & MCC & Accuracy & F-score & MCC \\
+				\midrule
+				{\it ALSTMNet}\_text & 0.578 &	0.486 &	0.184 &	0.571 &	0.473 &	0.174 \\
+				{\it ALSTMNet}\_price & 0.614 & 0.582 & 0.285 & 0.607 & 0.589 & 0.276 \\
+				\hline
+				{\it ALSTMNet}\_5  & 0.618 & 0.563 & 0.267 & 0.621 & 0.578 & 0.291 \\
+				{\it ALSTMNet}\_7  & 0.629 & \textbf{0.623} & 0.293 & 0.618 & 0.6 & 0.287 \\
+				{\it ALSTMNet}\_15  & 0.612 & 0.548 & 0.234 & 0.606 & 0.551 & 0.242 \\
+				{\it ALSTMNet}\_10  & \textbf{0.638} & 0.578 & \textbf{0.313} & \textbf{0.628} & \textbf{0.613} & \textbf{0.302} \\
+				\botrule
+			\end{tabular*}
+		\end{minipage}
+	\end{center}
+\end{table}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/ablation1.png}
+	\caption{Comparison of Accuracy, F-score, and MCC for Dataset 1}\label{fig7}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\textwidth]{images/ablation2.png}
+	\caption{Comparison of Accuracy, F-score, and MCC for Dataset 2}\label{fig8}
+\end{figure}
+
+The performance of {\it ALSTMNet} variants under diverse conditions is shown in Table \ref{tab3}. Among the variants using only single input data, {\it ALSTMNet}\_price shows a remarkable performance. The main reason is that the input data of {\it ALSTMNet}\_text only contains social media texts, which is restricted by the one-sidedness of the public reaction. Besides, social media texts can only provide limited information, which cannot precisely reflect the real trend of the market. However, the fully configured {\it ALSTMNet} obviously outperforms both, which proves that using multi-source heterogeneous data sources can supply more abundant information to fulfill the complex business requirements of stock prediction tasks. Therefore, compared with only applying a single information source, multi-source heterogeneous data sources can provide strong support for stock prediction tasks.
+
+Since {\it ALSTMNet} takes trading days as the basic unit, the value of the time step keeps a direct impact on the experimental results. As shown in Fig. \ref{fig7} and Fig. \ref{fig8}, which visually display the changes in three evaluation indicators. As Table \ref{tab3} shows, experiments with step lengths of 7 days and 10 days perform outstanding results. Furthermore, the overall performance of the experiment with a step length of 15 days is the worst. Based on our analysis of the phenomenon, we believe that the value of the step length leads to a large period of LSTM memory, which makes it difficult for LSTM to extract contextual features from long-term sequences, and thus decreases the accuracy of the LSTM model. And, the stock market is easily susceptible to various factors, and the predicted target trading day is likely to be influenced by the prices of the adjacent trading days. To exactly predict the trend of Chinese stocks, our model considers that the step size parameter of the model should not exceed 10 days. In general, our proposed {\it ALSTMNet} achieved satisfactory performance on both datasets, indicating its excellent generalization ability.
+
+\section{Conclusion and future works}\label{Conclusion and future works}
+In this paper, an {\it ALSTMNet} method is proposed for predicting stock trends based on the time-series features of stock price data and social media text features. To address the challenges of temporal dependence on financial sequence data and the fuse of social media texts and stock information, we construct a predictive framework consisting of the feature extractor and the concatenation processor. The feature extractor based on a wavelet transformer decomposes the financial data time series into different frequency components to emphasize the important features, thus reducing the complexity of the prediction task. In addition, to acquire sentiment extremes from social media texts, we adopt the Chinese BERT model, which can transform unstructured text data into structured data features to implement sentiment analysis and quantify the sentiment numerical values. The concatenation processor is composed of an LSTM model and an attention mechanism, which can effectively capture the time-dependency of the input data by fusing the extracted text features and denoised price features, and obviously boost the accuracy of stock trend prediction.
+
+In this work, two sets of experiments were established to demonstrate the feasibility of the proposed {\it ALSTMNet} model. Firstly, the predictive performance of {\it ALSTMNet} was compared with a variety of baseline models to prove the effectiveness of the model. Secondly, five diverse variants of {\it ALSTMNet} were created to analyze the influence of the internal components of the model on the overall model. The experimental results show that the proposed model achieved satisfactory performance in most cases, significantly outperforming the baseline models. In addition, we attempted to explain the causes of the phenomena observed in the experimental results.
+
+The application of {\it ALSTMNet} will be further strengthened, especially in stock market prediction. For example, multi-source data fusion still presents a broader prospect, and we will continue to explore the possibilities in this aspect. To effectively revise the stock trend prediction results, we hope to fuse the relevant coefficients of stocks into the completed work. Considering the correlation between stocks, to build market and trading information we will employ knowledge graph and graph embedding technology to analyze related stocks for the target.
+
+\section{Acknowledgments}
+The authors would like to thank the anonymous reviewers for comments that helped improve the paper. Supported by the Guangzhou Science and Technology Planning Project of China No. 202102010395, in part by the National Natural Science Foundation of China under Grant No. 62176071, in part by the Natural Science Foundation of Guangdong Province under Grant 2021A1515011859, and in part by the Guangzhou Basic Research Program Municipal School (College) Joint Funding Project under Grant 2023A03J0111.
+
+
+%%===========================================================================================%%
+%% If you are submitting to one of the Nature Portfolio journals, using the eJP submission   %%
+%% system, please include the references within the manuscript file itself. You may do this  %%
+%% by copying the reference list from your .bbl file, paste it into the main manuscript .tex %%
+%% file, and delete the associated \verb+\bibliography+ commands.                            %%
+%%===========================================================================================%%
+
+\bibliography{sn-bibliography}% common bib file
+%% if required, the content of .bbl file can be included here once bbl is generated
+%%\input sn-article.bbl
+
+%% Default %%
+%%\input sn-sample-bib.tex%
+
+\end{document}
