@@ -1,0 +1,95 @@
+---
+datasets:
+  nc_default: &nc_dataset_default
+    task: "node_classification"
+  lp_default: &lp_dataset_default
+    task: "link_prediction"
+  AIFB:
+    <<: *nc_dataset_default
+    cname: "aifb-hetero"
+    path: "./data/aifb-hetero"
+  MUTAG:
+    <<: *nc_dataset_default
+    cname: "mutag-hetero"
+    path: "./data/mutag-hetero"
+  BGS:
+    <<: *nc_dataset_default
+    cname: "bgs-hetero"
+    path: "./data/bgs-hetero"
+
+models:
+  default: &model_default
+    hidden_dim: 64
+    neg_sample_size: 1
+    margin: 1.0
+    batch_size: 256
+    optim: "SGD"
+    lr: 0.01
+    weight_decay: 0.0
+    val_interval: 1
+    patience: 10
+
+  RGCN: &RGCN
+    <<: *model_default
+    num_layers: 2
+    dropout: 0.0
+
+  RGCN_nc:
+    <<: *RGCN
+    lr: 0.005
+    optim: "Adam"
+    use_self_loop: False
+
+
+frameworks:
+  fl_default: &fl_framework_default
+    num_local_epochs: 3
+    max_rounds: 1000
+    fraction: 1.0
+
+  FedHGN: &FedHGN
+    <<: *fl_framework_default
+    align_reg: 0.5
+
+  FedHGN_nc:
+    <<: *FedHGN
+    align_reg: 0.5
+    num_bases: 20
+
+  FedSP-MPG: &FedSP_MPG
+    <<: *fl_framework_default
+    align_reg: 0.5
+    mp_max_len: 3
+
+    #{4,8,16,24,32}
+    mp_max_paths: 16
+
+    mp_view_num_layers: 1
+    mp_view_dropout: 0.1
+
+    #{2,4,8,16}
+    mp_num_gating_bases: 8
+
+    lambda_stb: 0.0
+
+  FedSP-MPG_nc:
+    <<: *FedSP_MPG
+    num_bases: 20
+
+  FedAvg:
+    <<: *fl_framework_default
+    num_bases: -1
+    mu: 0.0
+
+  FedProx:
+    <<: *fl_framework_default
+    num_bases: -1
+    mu: 1.0
+
+  Local:
+    max_epochs: 6000
+    num_bases: -1
+
+  Central:
+    max_epochs: 6000
+    num_bases: -1
