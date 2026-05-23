@@ -7,6 +7,10 @@ def choose_neighs_and_get_features(features, gen_feats, neighs_list, sample_list
     non_samp_neighs = []
     samp_score_diff = []
     actions = []
+    # Determine device from features
+    device = next(features.parameters()).device if hasattr(features, 'parameters') and list(features.parameters()) else torch.device('cpu')
+    cuda = device.type == 'cuda'
+    
     for idx, neighs in enumerate(neighs_list):
         if len(neighs) == 1:
             samp_neighs.append(set(neighs))
@@ -15,14 +19,19 @@ def choose_neighs_and_get_features(features, gen_feats, neighs_list, sample_list
         else:
             gen_feat = gen_feats[idx]
             gen_feat = gen_feat.expand(len(neighs), gen_feat.shape[0])
-            neighs_feature = features(torch.LongTensor(neighs[0:]))
+            neighs_tensor = torch.LongTensor(neighs[0:])
+            if cuda:
+                neighs_tensor = neighs_tensor.cuda()
+            neighs_feature = features(neighs_tensor)
 
             observation = torch.cat((neighs_feature, gen_feat), dim=1)
 
             pn = PolicyNetwork(gen_feat.shape[1]+neighs_feature.shape[1], 1, neighs_feature.shape[1]*8, neighs_feature.shape[1]*8)
+            if cuda:
+                pn = pn.cuda()
 
             action1 = pn(observation).squeeze(0)
-            action2 = choose_neighs_and_get_features2(pe_features, center_pe_feats, idx, neighs)
+            action2 = choose_neighs_and_get_features2(pe_features, center_pe_feats, idx, neighs, cuda)
             action = action1 + action2
             actions.append(action)
         neighs_indices = neighs_list[idx]

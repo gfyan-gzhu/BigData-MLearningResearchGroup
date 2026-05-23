@@ -37,7 +37,7 @@ class ModelHandler(object):
                                                                     test_size=args.test_ratio,
                                                                     random_state=2, shuffle=True)
 
-        elif args.data_name == 'amazon':  # amazon
+        elif args.data_name == 'amazon':
             # 0-3304 are unlabeled nodes
             index = list(range(3305, len(labels)))
             idx_train, idx_rest, y_train, y_rest = train_test_split(index, labels[3305:], stratify=labels[3305:],
@@ -55,7 +55,6 @@ class ModelHandler(object):
         # split pos neg sets for under-sampling
         train_pos, train_neg = pos_neg_split(idx_train, y_train)
 
-        # if args.data == 'amazon':
         feat_data = normalize(feat_data)
         # train_feats = feat_data[np.array(idx_train)]
         # scaler = StandardScaler()
@@ -102,7 +101,7 @@ class ModelHandler(object):
                 gen.cuda()
 
         # build one-layer models
-        if args.model in ['GNN', 'PCGNN']:
+        if args.model in ['GNN', 'ENDFRAUD']:
             intra1 = IntraAgg(features, pe_features, feat_data.shape[1], args.emb_size, self.dataset['train_pos'],
                               args.rho, neigh_gen1, cuda=args.cuda)
             intra2 = IntraAgg(features, pe_features, feat_data.shape[1], args.emb_size, self.dataset['train_pos'],
@@ -120,7 +119,7 @@ class ModelHandler(object):
             enc_gcn = GCNEncoder(features, feat_data.shape[1], args.emb_size, adj_lists, agg_gcn, gcn=True,
                                  cuda=args.cuda)
 
-        if args.model in ['GNN', 'PCGNN']:
+        if args.model in ['GNN', 'ENDFRAUD']:
             gnn_model = PCALayer(2, inter1, args.alpha, neigh_gen)
         elif args.model == 'SAGE':
             # the vanilla GraphSAGE model as baseline

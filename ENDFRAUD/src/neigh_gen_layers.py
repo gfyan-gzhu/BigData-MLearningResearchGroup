@@ -5,21 +5,25 @@ from torch.nn.modules.module import Module
 
 
 class GraphConvolution(Module):
-    def __init__(self, in_features, out_features, config, bias=True):
+    def __init__(self, in_features, out_features, config=None, bias=True, device=None):
         super(GraphConvolution, self).__init__()
         self.in_feats = in_features
         self.out_feats = out_features
-        if config.cuda:
-            self.weight = Parameter(torch.rand(in_features, out_features)).to('cuda')
+        # Determine device
+        if device is not None:
+            self.device = device
+        elif config is not None and hasattr(config, 'cuda') and config.cuda:
+            self.device = torch.device('cuda')
         else:
-            self.weight = Parameter(torch.rand(in_features, out_features))
+            self.device = torch.device('cpu')
+        
+        self.weight = Parameter(torch.rand(in_features, out_features))
         if bias:
-            if config.cuda:
-                self.bias = Parameter(torch.rand(out_features)).to('cuda')
-            else:
-                self.bias = Parameter(torch.rand(out_features))
+            self.bias = Parameter(torch.rand(out_features))
         else:
             self.register_parameter('bias', None)
+        # Move parameters to device
+        self.to(self.device)
         self.reset_parameters()
 
     def reset_parameters(self):

@@ -26,17 +26,33 @@ class Gen(nn.Module):
         self.feat_shape = feat_shape
         self.temperature = 0.2
         self.discriminator = Discriminator(2 * feat_shape, 1)
-        # The generator network layers
-        self.fc1 = nn.Linear(32, 64).requires_grad_(True)
-        self.fc2 = nn.Linear(64, 128).requires_grad_(True)
-        self.fc3 = nn.Linear(64, 32).requires_grad_(True)
-        self.fc4 = nn.Linear(128, 64).requires_grad_(True)
-        self.fc_flat = nn.Linear(2048, latent_dim).requires_grad_(True)
-        self.bn0 = nn.BatchNorm1d(32).requires_grad_(False)
-        self.bn1 = nn.BatchNorm1d(64).requires_grad_(False)
+        # yelpchi
+        # self.fc1 = nn.Linear(32, 64).requires_grad_(True)
+        # self.fc2 = nn.Linear(64, 128).requires_grad_(True)
+        # self.fc3 = nn.Linear(64, 32).requires_grad_(True)
+        # self.fc4 = nn.Linear(128, 64).requires_grad_(True)
+        # self.fc_flat = nn.Linear(2048, latent_dim).requires_grad_(True)
+        # self.bn0 = nn.BatchNorm1d(32).requires_grad_(False)
+        # self.bn1 = nn.BatchNorm1d(64).requires_grad_(False)
         self.bn2 = nn.BatchNorm1d(2048).requires_grad_(False)
         self.bn3 = nn.BatchNorm1d(latent_dim).requires_grad_(False)
         self.dropout = dropout
+        #amazon
+        self.fc1 = nn.Linear(25, 64).requires_grad_(True)
+        self.fc2 = nn.Linear(50, 128).requires_grad_(True)
+        self.fc3 = nn.Linear(64, 128).requires_grad_(True)
+        self.fc4 = nn.Linear(128, 64).requires_grad_(True)
+        self.bn0 = nn.BatchNorm1d(25).requires_grad_(False)
+        self.bn1 = nn.BatchNorm1d(50).requires_grad_(False)
+        #tf-finance
+        #self.fc1 = nn.Linear(10, 64).requires_grad_(True)
+        #self.fc2 = nn.Linear(20, 128).requires_grad_(True)
+        #self.fc3 = nn.Linear(64, 32).requires_grad_(True)
+        #self.fc4 = nn.Linear(128, 64).requires_grad_(True)
+        #self.bn0 = nn.BatchNorm1d(10).requires_grad_(False)
+        #self.bn1 = nn.BatchNorm1d(20).requires_grad_(False)
+
+
 
     def forward(self, x, y, z):
         x = self.bn1(x)
@@ -74,11 +90,20 @@ class Discriminator(nn.Module):
     def get_contrast_sample(self, gen_feats, gen2_feats, raw_feats, labels):
         classify_label_1 = []
         classify_label_0 = []
+        # Get device from labels tensor
+        device = labels.device if isinstance(labels, torch.Tensor) else torch.device('cpu')
         for i in range(len(labels)):
-            if labels[i] == torch.tensor(1):
-                classify_label_1.append(i)
+            label_val = labels[i] if isinstance(labels, torch.Tensor) else labels[i]
+            if isinstance(label_val, torch.Tensor):
+                if label_val.item() == 1:
+                    classify_label_1.append(i)
+                else:
+                    classify_label_0.append(i)
             else:
-                classify_label_0.append(i)
+                if label_val == 1:
+                    classify_label_1.append(i)
+                else:
+                    classify_label_0.append(i)
 
 
         positive_feats = torch.mean(gen_feats[classify_label_1], dim=0, keepdim=True)
@@ -91,8 +116,11 @@ class Discriminator(nn.Module):
         negative_sample = []
         positive2_sample = []
         negative2_sample = []
+        device = labels.device if isinstance(labels, torch.Tensor) else torch.device('cpu')
         for i in range(len(labels)):
-            if labels[i] == torch.tensor(1):
+            label_val = labels[i] if isinstance(labels, torch.Tensor) else labels[i]
+            is_positive = (label_val.item() == 1) if isinstance(label_val, torch.Tensor) else (label_val == 1)
+            if is_positive:
                 positive_sample.append(positive_feats)
                 negative_sample.append(negative_feats)
                 positive2_sample.append(positive2_feats)
@@ -108,7 +136,26 @@ class Discriminator(nn.Module):
         negative_sample = torch.cat(negative_sample)
         positive2_sample = torch.cat(positive2_sample)
         negative2_sample = torch.cat(negative2_sample)
-
+        
+        # Calculate raw feature samples
+        raw_positive_feats = torch.mean(raw_feats[classify_label_1], dim=0, keepdim=True)
+        raw_negative_feats = torch.mean(raw_feats[classify_label_0], dim=0, keepdim=True)
+        
+        raw_positive_sample = []
+        raw_negative_sample = []
+        device = labels.device if isinstance(labels, torch.Tensor) else raw_feats.device
+        for i in range(len(labels)):
+            label_val = labels[i] if isinstance(labels, torch.Tensor) else labels[i]
+            is_positive = (label_val.item() == 1) if isinstance(label_val, torch.Tensor) else (label_val == 1)
+            if is_positive:
+                raw_positive_sample.append(raw_positive_feats)
+                raw_negative_sample.append(raw_negative_feats)
+            else:
+                raw_positive_sample.append(raw_negative_feats)
+                raw_negative_sample.append(raw_positive_feats)
+        
+        raw_positive_sample = torch.cat(raw_positive_sample)
+        raw_negative_sample = torch.cat(raw_negative_sample)
 
         return positive_sample, negative_sample, positive2_sample, negative2_sample, raw_positive_sample, raw_negative_sample
 

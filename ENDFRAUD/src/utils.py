@@ -45,6 +45,14 @@ def load_data(data, prefix='data/'):
 		data_file = loadmat(prefix + 'Amazon.mat')
 		labels = data_file['label'].flatten()
 		feat_data = data_file['features'].todense().A
+		# Try to load pe_features, if not available, create default
+		try:
+			pe_data_file = loadmat(prefix + 'pe_features.mat')
+			pe_feat = pe_data_file['pe_features']
+		except (FileNotFoundError, KeyError):
+			# If pe_features.mat doesn't exist, create a default zero matrix
+			# Shape should match the number of nodes
+			pe_feat = np.zeros((feat_data.shape[0], 32), dtype=np.float32)  # Default 32-dim PE features
 		# load the preprocessed adj_lists
 		with open(prefix + 'amz_homo_adjlists.pickle', 'rb') as file:
 			homo = pickle.load(file)
@@ -56,6 +64,31 @@ def load_data(data, prefix='data/'):
 			relation2 = pickle.load(file)
 		file.close()
 		with open(prefix + 'amz_uvu_adjlists.pickle', 'rb') as file:
+			relation3 = pickle.load(file)
+
+	elif data == 't-finance':
+		data_file = loadmat(prefix + 'tfinance.mat')
+		# labels = data_file['label']
+		labels = np.argmax(data_file['label'], axis=1)
+		feat_data = data_file['features']
+
+		# 加载 .mat 文件中的特征
+		pe_data_file = loadmat(prefix + 'pe_features.mat')
+
+		# 提取 'features' 数组，并转换为密集格式（如果需要）
+		pe_feat = pe_data_file['pe_features']
+
+		# load the preprocessed adj_lists
+		with open(prefix + 'tfinance_adjlists.pickle', 'rb') as file:
+			homo = pickle.load(file)
+		file.close()
+		with open(prefix + 'tfinance_adjlists.pickle', 'rb') as file:
+			relation1 = pickle.load(file)
+		file.close()
+		with open(prefix + 'tfinance_adjlists.pickle', 'rb') as file:
+			relation2 = pickle.load(file)
+		file.close()
+		with open(prefix + 'tfinance_adjlists.pickle', 'rb') as file:
 			relation3 = pickle.load(file)
 
 	return [homo, relation1, relation2, relation3], feat_data, labels, pe_feat
@@ -105,11 +138,28 @@ def undersample(pos_nodes, neg_nodes, scale=2):
 	return batch_nodes
 
 
-def pick_step(idx_train, y_train, adj_list, size):
-	degree_train = [len(adj_list[node]) for node in idx_train]
-	lf_train = (y_train.sum()-len(y_train))*y_train + len(y_train)
-	smp_prob = np.array(degree_train) / lf_train
-	return random.choices(idx_train, weights=smp_prob, k=size)
+# def pick_step(idx_train, y_train, adj_list, size):
+# 	degree_train = [len(adj_list[node]) for node in idx_train]
+# 	lf_train = (y_train.sum()-len(y_train))*y_train + len(y_train)
+# 	smp_prob = np.array(degree_train) / lf_train
+# 	return random.choices(idx_train, weights=smp_prob, k=size)
+
+def pick_step(
+    idx_train,
+    y_train,
+    adj_list,
+    size,
+    # gen_train_flag,
+    all_labels,
+    b_pick=0.75,
+    f_pick=0.45,
+):
+    max_l = len(y_train)
+    degree_train = [1 for node in idx_train]
+    lf_train = (y_train.sum() - len(y_train)) * y_train + len(y_train)
+    lf_train = [b_pick if i == max_l else f_pick for i in lf_train]
+    smp_prob = np.array(degree_train) / lf_train
+    return list((rd.choices(idx_train, weights=smp_prob, k=size)))
 
 
 def test_sage(test_cases, labels, model, batch_size, thres=0.5):
@@ -200,8 +250,6 @@ def test_pcgnn(test_cases, labels, model, batch_size, thres=0.5):
 	print(f"   GNN F1-binary-1: {f1_binary_1_gnn:.4f}\tF1-binary-0: {f1_binary_0_gnn:.4f}"+
 			f"\tF1-macro: {f1_macro_gnn:.4f}\tG-Mean: {gmean_gnn:.4f}\tAUC: {auc_gnn:.4f}")
 	print(f"   GNN TP: {tp}\tTN: {tn}\tFN: {fn}\tFP: {fp}")
-	print(f"Label1 F1: {f1_label1 / test_batch_num:.4f}\tAccuracy: {acc_label1 / test_batch_num:.4f}"+
-		  f"\tRecall: {recall_label1 / test_batch_num:.4f}\tAUC: {auc_label1:.4f}\tAP: {ap_label1:.4f}")
 
 	return f1_macro_gnn, f1_binary_1_gnn, f1_binary_0_gnn, auc_gnn, gmean_gnn
 

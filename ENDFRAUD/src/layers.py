@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn
 from torch.nn import init
 import torch.nn.functional as F
-from torch.autograd import Variable
 import numpy as np
 from operator import itemgetter
 import math
@@ -59,14 +58,16 @@ class InterAgg(nn.Module):
         unique_nodes = set.union(set.union(*to_neighs[0]), set.union(*to_neighs[1]),
                                  set.union(*to_neighs[2], set(nodes)))
 
+        unique_nodes_list = list(unique_nodes)
+        train_pos_list = list(self.train_pos)
         if self.cuda:
-            batch_features = self.features(torch.cuda.LongTensor(list(unique_nodes)))
-            batch_pe_features = self.pe_features(torch.cuda.LongTensor(list(unique_nodes)))
-            pos_features = self.features(torch.cuda.LongTensor(list(self.train_pos)))
+            batch_features = self.features(torch.LongTensor(unique_nodes_list).cuda())
+            batch_pe_features = self.pe_features(torch.LongTensor(unique_nodes_list).cuda())
+            pos_features = self.features(torch.LongTensor(train_pos_list).cuda())
         else:
-            batch_features = self.features(torch.LongTensor(list(unique_nodes)))
-            batch_pe_features = self.pe_features(torch.LongTensor(list(unique_nodes)))
-            pos_features = self.features(torch.LongTensor(list(self.train_pos)))
+            batch_features = self.features(torch.LongTensor(unique_nodes_list))
+            batch_pe_features = self.pe_features(torch.LongTensor(unique_nodes_list))
+            pos_features = self.features(torch.LongTensor(train_pos_list))
         batch_scores = self.label_clf(batch_features)
         pos_scores = self.label_clf(pos_features)
         id_mapping = {node_id: index for node_id, index in zip(unique_nodes, range(len(unique_nodes)))}
@@ -104,8 +105,6 @@ class InterAgg(nn.Module):
                                                                                   r3_scores, pos_scores,
                                                                                   r3_sample_num_list, train_flag)
 
-        # gen_node_feats = torch.cat((r1_gen_feats, r2_gen_feats, r3_gen_feats), dim=1)
-        # gen_node_feats = F.relu(gen_node_feats.mm(self.weight).t())
         gen_feats = []
         gen_feats.append(r1_gen_feats)
         gen_feats.append(r2_gen_feats)
@@ -121,20 +120,16 @@ class InterAgg(nn.Module):
         raw_feats.append(r2_raw_feats)
         raw_feats.append(r3_raw_feats)
 
-        top_feats = torch.cat((r1_gen_feats, r2_gen_feats, r3_gen_feats),dim=1)
         raw_feats2 = torch.cat((r1_raw_feats, r2_raw_feats, r3_raw_feats), dim=1)
 
         # get features or embeddings for batch nodes
-        if self.cuda and isinstance(nodes, list):
+        if self.cuda:
             index = torch.LongTensor(nodes).cuda()
         else:
             index = torch.LongTensor(nodes)
         self_feats = self.features(index)
-        # self_feats = self.dropout(self_feats)
         # number of nodes in a batch
         n = len(nodes)
-
-        # concat the intra-aggregated embeddings from each relation
 
         cat_feats = torch.cat((self_feats, r1_feats, r2_feats, r3_feats), dim=1)
         combined = F.relu(cat_feats.mm(self.weight).t())
@@ -157,11 +152,11 @@ class IntraAgg(nn.Module):
         self.gen = gen
         self.dropout = nn.Dropout(p=0.5)
         self.weight = nn.Parameter(torch.FloatTensor(2*self.feat_dim, self.embed_dim))
-        self.weight1 = nn.Parameter(torch.FloatTensor(self.feat_dim*4, self.embed_dim))
+        self.weight1 = nn.Parameter(torch.FloatTensor(self.embed_dim*2, self.embed_dim))
         self.weight2 = nn.Parameter(torch.FloatTensor(self.feat_dim, self.embed_dim))
         self.weight3 = nn.Parameter(torch.FloatTensor(3 * self.feat_dim, self.embed_dim))
         self.weight4 = nn.Parameter(torch.FloatTensor(self.feat_dim, self.embed_dim))
-        self.weight5 = nn.Parameter(torch.FloatTensor(4 * self.feat_dim, self.embed_dim))
+        self.weight5 = nn.Parameter(torch.FloatTensor(2 * self.embed_dim, self.embed_dim))
         self.weight6 = nn.Parameter(torch.FloatTensor(2 * self.feat_dim, self.embed_dim))
         self.weight7 = nn.Parameter(torch.FloatTensor(2 * self.feat_dim, self.feat_dim))
         self.label_clf = nn.Linear(self.feat_dim, 2)
@@ -191,12 +186,10 @@ class IntraAgg(nn.Module):
         )
 
 
-        if self.cuda and isinstance(nodes, list):
-            index = torch.LongTensor(nodes).cuda()
+        if self.cuda:
+            center_pe_feats = self.pe_features(torch.LongTensor(nodes).cuda())
         else:
-            index = torch.LongTensor(nodes)
-
-        center_pe_feats = self.pe_features(torch.LongTensor(nodes))
+            center_pe_feats = self.pe_features(torch.LongTensor(nodes))
 
         gene_feats = torch.cat((center_pe_feats, gen_feats), dim=1)
         samp_neighs, non_samp_neighs, samp_scores = choose_neighs_and_get_features(self.features, gen_feats, to_neighs_list, sample_list, self.pe_features, center_pe_feats)
@@ -217,8 +210,8 @@ class IntraAgg(nn.Module):
         unique_nodes_list2 = list(set.union(*non_samp_neighs))
         unique_nodes2 = {n: i for i, n in enumerate(unique_nodes_list2)}
 
-        mask = Variable(torch.zeros(len(samp_neighs), len(unique_nodes)))
-        mask2 = Variable(torch.zeros(len(non_samp_neighs), len(unique_nodes2)))
+        mask = torch.zeros(len(samp_neighs), len(unique_nodes))
+        mask2 = torch.zeros(len(non_samp_neighs), len(unique_nodes2))
         column_indices = [unique_nodes[n] for samp_neigh in samp_neighs for n in samp_neigh]
         column_indices2 = [unique_nodes2[n] for non_samp_neigh in non_samp_neighs for n in non_samp_neigh]
         row_indices = [i for i in range(len(samp_neighs)) for _ in range(len(samp_neighs[i]))]
@@ -227,6 +220,7 @@ class IntraAgg(nn.Module):
         mask2[row_indices2, column_indices2] = 1
         if self.cuda:
             mask = mask.cuda()
+            mask2 = mask2.cuda()
         num_neigh = mask.sum(1, keepdim=True)
         num_neigh2 = mask2.sum(1, keepdim=True)
         mask = mask.div(num_neigh)  # mean aggregator
@@ -237,7 +231,6 @@ class IntraAgg(nn.Module):
             embed_matrix2 = self.features(torch.LongTensor(unique_nodes_list2).cuda())
         else:
             self_feats = self.features(torch.LongTensor(nodes))
-            # self_gen_feats, self_raw_feats = self.gen(self_feats)
             embed_matrix = self.features(torch.LongTensor(unique_nodes_list))
             embed_matrix2 = self.features(torch.LongTensor(unique_nodes_list2))
         agg_feats = mask.mm(embed_matrix)  # single relation aggregator
@@ -258,7 +251,7 @@ def get_agg_feats(features, samp_neighs, cuda):
     unique_nodes = {n: i for i, n in enumerate(unique_nodes_list)}
 
     # intra-relation aggregation only with sampled neighbors
-    mask = Variable(torch.zeros(len(neighs), len(unique_nodes)))
+    mask = torch.zeros(len(neighs), len(unique_nodes))
     column_indices = [unique_nodes[n] for samp_neigh in neighs for n in samp_neigh]
     row_indices = [i for i in range(len(neighs)) for _ in range(len(neighs[i]))]
     mask[row_indices, column_indices] = 1
@@ -360,8 +353,6 @@ def choose_step_test(center_scores,  center_labels, neigh_scores, neighs_list, s
     return samp_neighs, non_samp_neighs, samp_scores
 
 
-
-
 class AttentionAggregator(nn.Module):
     def __init__(self, feature_dim):
         super(AttentionAggregator, self).__init__()
@@ -408,7 +399,6 @@ def get_attention_agg_feats(features, samp_neighs, cuda):
     # print(agg_feats)
     agg_feats = torch.cat(agg_feats, dim=0)
     return agg_feats
-
 
 def random_edge_sampling(center_feats, to_neighs_list, p=0.5, seed=None):
     if seed is not None:

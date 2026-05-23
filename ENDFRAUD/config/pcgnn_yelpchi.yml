@@ -1,0 +1,66 @@
+# Data
+data_name: 'yelp'
+data_dir: './data/'
+train_ratio: 0.05
+test_ratio: 0.67
+save_dir: './pytorch_models/'
+
+# Model
+model: 'ENDFRAUD'
+multi_relation: 'GNN'
+
+
+# Model architecture
+emb_size: 64
+
+#thres: 0.5
+#thres: 0.7
+#thres: 0.6
+#thres: 0.65
+#thres: 0.55
+
+
+thres: 0.57
+rho: 0.5
+# rho:
+#   - 0.2
+#   - 0.4
+#   - 0.6
+#   - 0.8
+
+seed: 72
+#seed: 1123
+# # Run multiple times with different random seeds
+# seed:
+#     - 42
+#     - 448
+#     - 854
+#     - 29493
+#     - 88867
+
+
+# hyper-parameters
+optimizer: 'adam'
+#lr: 0.01
+#lr: 0.005
+lr: 0.001
+#lr: 0.003
+weight_decay: 0.001
+#weight_decay: 0.0001
+batch_size: 1024
+#batch_size: 2048
+num_epochs: 251
+valid_epochs: 5
+alpha: 2
+#alpha: 1
+#alpha: 4
+#alpha: 5
+negsamp_ratio: 1
+
+# Device
+no_cuda: Ture
+#no_cuda: False
+#cuda_id: '2'
+cuda_id: '0'
+cuda: False
+#cuda: Ture

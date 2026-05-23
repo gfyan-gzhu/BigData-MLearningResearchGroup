@@ -19,7 +19,8 @@ class PCALayer(nn.Module):
 		init.xavier_uniform_(self.weight)
 		self.lambda_1 = lambda_1
 		self.epsilon = 0.1
-		self.device = 'cuda'
+		# Device will be set dynamically based on model location
+		self.device = next(self.parameters()).device if list(self.parameters()) else torch.device('cpu')
 
 	def forward(self, nodes, labels, train_flag=True):
 		embeds1, label_scores, gen_feats, gen2_feat, raw_feats, top_feats = self.inter1(nodes, labels, train_flag)
@@ -46,5 +47,5 @@ class PCALayer(nn.Module):
 			c_loss = self.nei_gen[i].discriminator.forward(gen_feats[i], gen2_feats[i], raw_feats[i], labels)
 			cons_loss.append(c_loss)
 		context_loss = sum(cons_loss)
-		final_loss = final_loss + self.lambda_1 * cons_loss
+		final_loss = final_loss + self.lambda_1 * context_loss
 		return final_loss
