@@ -1,0 +1,68 @@
+2024-07-05 15:35:34,493 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2024-07-05 15:35:35,178 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 15:35:35,428 - pyswarms.single.global_best - INFO - Optimization finished | best cost: 2820.122187874171, best pos: [0.97055702 0.46406884]
+2024-07-05 15:42:17,247 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 15:42:17,398 - pyswarms.single.global_best - INFO - Optimization finished | best cost: 795.4645264638033, best pos: [0.71160121 0.79670524]
+2024-07-05 15:42:32,549 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 15:42:32,713 - pyswarms.single.global_best - INFO - Optimization finished | best cost: 795.4645264638033, best pos: [0.71160121 0.79670524]
+2024-07-05 15:43:47,002 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 15:55:39,580 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 15:56:47,981 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:00:40,332 - pyswarms.single.global_best - INFO - Optimize for [[5.92880271e-01 1.00636957e-02]
+ [4.75826196e-01 7.08770391e-01]
+ [4.39754320e-02 8.79521483e-01]
+ [5.20081417e-01 3.06610483e-02]
+ [2.24413612e-01 9.53675696e-01]
+ [5.82319733e-01 1.07472568e-01]
+ [2.87544502e-01 4.56703626e-01]
+ [2.09500693e-02 4.11615514e-01]
+ [4.89458635e-01 2.43677875e-01]
+ [5.88639000e-01 7.53240120e-01]
+ [2.35834224e-01 6.20499900e-01]
+ [6.39622243e-01 9.48540301e-01]
+ [7.78276167e-01 8.48345270e-01]
+ [4.90419908e-01 1.85348587e-01]
+ [9.95815293e-01 1.29355761e-01]
+ [4.71457319e-01 6.80930992e-02]
+ [9.43850857e-01 9.64924941e-01]
+ [7.19389062e-01 3.49992844e-01]
+ [2.54382401e-01 2.65303325e-01]
+ [1.27294025e-01 5.25808953e-01]
+ [1.41817276e-01 3.16730667e-01]
+ [6.26706476e-01 7.27543610e-01]
+ [2.42727046e-02 4.30115984e-01]
+ [6.52124595e-01 8.53245976e-01]
+ [4.75324782e-01 9.69205872e-01]
+ [2.65632548e-01 1.35087066e-02]
+ [4.83752865e-01 2.56113795e-01]
+ [8.23717672e-01 2.32772672e-01]
+ [3.10629218e-01 7.91227431e-01]
+ [7.15143252e-01 5.58051237e-01]
+ [7.04948062e-01 4.18636864e-01]
+ [5.31004761e-03 1.13551285e-02]
+ [5.11221788e-01 8.32909797e-02]
+ [5.10754802e-02 9.65516639e-01]
+ [8.59002640e-01 1.52027227e-01]
+ [6.64218590e-04 9.41667795e-01]
+ [2.78325298e-01 1.85897603e-01]
+ [6.91508108e-01 1.08903739e-01]
+ [2.64649598e-01 9.75094680e-01]
+ [6.39462774e-01 5.20677791e-01]
+ [3.97918615e-01 7.74500955e-01]
+ [1.40957477e-01 9.67337802e-01]
+ [8.61123008e-01 6.17656983e-01]
+ [4.29061904e-02 7.00855649e-01]
+ [9.13284341e-01 5.24577067e-01]
+ [3.54224822e-01 1.20277345e-01]
+ [7.54901104e-01 8.85021851e-01]
+ [1.00251744e-01 7.58984555e-01]
+ [1.70604863e-02 9.67054918e-01]
+ [6.15058021e-01 5.52439059e-01]] iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:02:03,154 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:02:19,406 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:03:13,514 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2024-07-05 16:03:13,892 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:03:14,057 - pyswarms.single.global_best - INFO - Optimization finished | best cost: 2820.122187874171, best pos: [0.97055702 0.46406884]
+2024-07-05 16:14:34,473 - numexpr.utils - INFO - NumExpr defaulting to 8 threads.
+2024-07-05 16:14:34,883 - pyswarms.single.global_best - INFO - Optimize for 100 iters with {'c1': 0.5, 'c2': 0.3, 'w': 0.9}
+2024-07-05 16:14:35,073 - pyswarms.single.global_best - INFO - Optimization finished | best cost: 2820.122187874171, best pos: [0.97055702 0.46406884]
